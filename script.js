@@ -1,11 +1,5 @@
 const localStorageKey = "My-To-do-List"
-
-function validaJaExiste(){
-    let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
-    let inputValue = document.getElementById("input-new-task").value;
-    let exist = values.find(elemento =>elemento.name == inputValue)
-    return !exist ? false : true
-}
+/* Funcao para inserir nova tarefa*/
 function newtask(){
     let input = document.getElementById("input-new-task");
     input.style.border = ""
@@ -21,16 +15,22 @@ function newtask(){
     else{
 
     let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
-    values.push(
-        {
-        name:input.value}
-        )
+    values.push({name:input.value})
+
     localStorage.setItem(localStorageKey,JSON.stringify(values))
 
     showValues()
     }
     input.value = ""
 }
+/* Funcao para validar se tarefa ja existe*/
+function validaJaExiste(){
+    let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
+    let inputValue = document.getElementById("input-new-task").value;
+    let exist = values.find(elemento =>elemento.name == inputValue)
+    return !exist ? false : true
+}
+/* Funcao para mostrar lista tarefa*/
 function showValues(){
 
     let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
@@ -38,10 +38,11 @@ function showValues(){
     list.innerHTML = "";
 
     for (let index = 0; index < values.length; index++) {
-        list.innerHTML += "<li>"+values[index]['name']+"<button id='btn-ok'onclick='removeItem()'>ok</button></li>"
+        list.innerHTML += `<li>${values[index]['name']}<button id='btn-ok'onclick='removeItem("${values[index]['name']}")'>OK</button></li>`
         
     }
 }
+/* Funcao para remover tarefa ja realizada*/
 function removeItem(data){
 
     let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
